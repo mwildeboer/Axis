@@ -73,7 +73,7 @@
         }
         
 
-        if (self.horizontalAttributes & AXLayoutAttributeRight)
+        if (self.horizontalAttributes & AXLayoutAttributeRight && !(self.horizontalAttributes & AXLayoutAttributeWidth))
         {
             if (!_right.targetAttribute == AXLayoutAttributeNone)
             {
@@ -128,7 +128,7 @@
     CGRect newFrame = *frame;
     if (self.verticalAttributes & AXLayoutAttributeHeight)
     {
-        if (!_height.targetAttribute == AXLayoutAttributeNone)
+        if (_height.targetAttribute != AXLayoutAttributeNone)
         {
             if (_height.targetAttribute == AXLayoutAttributeWidth) {
                 newFrame.size.height = CGRectGetWidth(_height.targetView.frame) * _height.multiplier;
@@ -144,12 +144,12 @@
     
     if (self.verticalAttributes & AXLayoutAttributeTop)
     {
-        if (!_top.targetAttribute == AXLayoutAttributeNone)
+        if (_top.targetAttribute != AXLayoutAttributeNone)
         {
             if (_top.targetAttribute == AXLayoutAttributeTop) {
                 newFrame.origin.y = CGRectGetMinY(_top.targetView.frame) * _top.multiplier + _top.offset;
             }
-            else if (_top.targetAttribute == AXLayoutAttributeBottom) {
+            else if (_top.targetAttribute == AXLayoutAttributeBottom) {                
                 newFrame.origin.y = CGRectGetMaxY(_top.targetView.frame) * _top.multiplier + _top.offset;
             }
         }
@@ -157,9 +157,9 @@
             newFrame.origin.y = _top.constantValue;
         }
         
-        if (self.verticalAttributes & AXLayoutAttributeBottom)
+        if (self.verticalAttributes & AXLayoutAttributeBottom && !(self.verticalAttributes & AXLayoutAttributeHeight))
         {
-            if (!_bottom.targetAttribute == AXLayoutAttributeNone)
+            if (_bottom.targetAttribute != AXLayoutAttributeNone)
             {
                 if (_bottom.targetAttribute == AXLayoutAttributeBottom) {
                     newFrame.size.height = MAX(0, (CGRectGetMaxY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetMinY(newFrame));

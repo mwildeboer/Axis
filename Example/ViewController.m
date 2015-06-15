@@ -41,25 +41,29 @@
     [super viewDidLayoutSubviews];
     
     [self.firstView layout:^(AXLayoutMaker *make) {
-        [make.centerX equalTo:self.view.centerX];
+        [make.left equalTo:@20];
         [make.top equalTo:@20];
-        [make.width equalTo:@20];
-        [make.bottom equalTo:@20];
+        [make.width equalTo:@100];
+        [make.height equalTo:@100];
     }];
 
     [self.secondView layout:^(AXLayoutMaker *make) {
-        [make.left equalTo:@20];
+        [make.left equalTo:self.firstView.right withOffset:10];
         [make.top equalTo:self.firstView.top];
-        [make.right equalTo:self.firstView.left withOffset:20];
-        [make.height equalTo:self.view.height withOffset:20 andMultiplier:0.5];
+        [make.width equalTo:self.firstView.width];
+        [make.height equalTo:self.firstView.height];
     }];
     
     [self.thirdView layout:^(AXLayoutMaker *make) {
-        [make.right equalTo:@20];
-        [make.top equalTo:self.firstView.top];
-        [make.left equalTo:self.firstView.right withOffset:20];
-        [make.height equalTo:self.view.height withOffset:20 andMultiplier:0.5];
+        [make.top equalTo:self.firstView.bottom withOffset:10];
+        [make.left equalTo:self.firstView.left];
+        [make.right equalTo:self.secondView.right];
+        [make.height equalTo:@100];
     }];
+    
+    NSLog(@"firstView frame %@", NSStringFromCGRect(self.firstView.frame));
+    NSLog(@"secondView frame %@", NSStringFromCGRect(self.secondView.frame));
+    NSLog(@"thirdView frame %@", NSStringFromCGRect(self.thirdView.frame));
 }
 
 - (BOOL)prefersStatusBarHidden

@@ -11,15 +11,6 @@
 #import "AXLayoutConstraint+Private.h"
 #import "UIView+Axis.h"
 
-static void *kUIViewConstraintKeyLeft = &kUIViewConstraintKeyLeft;
-static void *kUIViewConstraintKeyTop = &kUIViewConstraintKeyTop;
-static void *kUIViewConstraintKeyRight = &kUIViewConstraintKeyRight;
-static void *kUIViewConstraintKeyBottom = &kUIViewConstraintKeyBottom;
-static void *kUIViewConstraintKeyWidth = &kUIViewConstraintKeyWidth;
-static void *kUIViewConstraintKeyHeight = &kUIViewConstraintKeyBottom;
-static void *kUIViewConstraintKeyCenterX = &kUIViewConstraintKeyCenterX;
-static void *kUIViewConstraintKeyCenterY = &kUIViewConstraintKeyCenterY;
-
 @implementation UIView (AXLayoutMaker)
 
 - (void)layout:(void (^)(AXLayoutMaker *make))layoutBlock
@@ -35,54 +26,49 @@ static void *kUIViewConstraintKeyCenterY = &kUIViewConstraintKeyCenterY;
 
 - (AXLayoutConstraint *)left
 {
-    return [self constraintWithAttribute:AXLayoutAttributeLeft andKey:kUIViewConstraintKeyLeft];
+    return [self constraintWithAttribute:AXLayoutAttributeLeft];
 }
 
 - (AXLayoutConstraint *)top
 {
-    return [self constraintWithAttribute:AXLayoutAttributeTop andKey:kUIViewConstraintKeyTop];
+    return [self constraintWithAttribute:AXLayoutAttributeTop];
 }
 
 - (AXLayoutConstraint *)right
 {
-    return [self constraintWithAttribute:AXLayoutAttributeRight andKey:kUIViewConstraintKeyRight];
+    return [self constraintWithAttribute:AXLayoutAttributeRight];
 }
 
 - (AXLayoutConstraint *)bottom
 {
-    return [self constraintWithAttribute:AXLayoutAttributeBottom andKey:kUIViewConstraintKeyBottom];
+    return [self constraintWithAttribute:AXLayoutAttributeBottom];
 }
 
 - (AXLayoutConstraint *)width
 {
-    return [self constraintWithAttribute:AXLayoutAttributeWidth andKey:kUIViewConstraintKeyWidth];
+    return [self constraintWithAttribute:AXLayoutAttributeWidth];
 }
 
 - (AXLayoutConstraint *)height
 {
-    return [self constraintWithAttribute:AXLayoutAttributeHeight andKey:kUIViewConstraintKeyHeight];
+    return [self constraintWithAttribute:AXLayoutAttributeHeight];
 }
 
 - (AXLayoutConstraint *)centerX
 {
-    return [self constraintWithAttribute:AXLayoutAttributeCenterX andKey:kUIViewConstraintKeyCenterX];
+    return [self constraintWithAttribute:AXLayoutAttributeCenterX];
 }
 
 - (AXLayoutConstraint *)centerY
 {
-    return [self constraintWithAttribute:AXLayoutAttributeCenterY andKey:kUIViewConstraintKeyCenterY];
+    return [self constraintWithAttribute:AXLayoutAttributeCenterY];
 }
 
 #pragma mark - Private
 
-- (AXViewLayoutConstraint *)constraintWithAttribute:(AXLayoutAttribute)attribute andKey:(const void *)key
+- (AXViewLayoutConstraint *)constraintWithAttribute:(AXLayoutAttribute)attribute
 {
-    AXViewLayoutConstraint *constraint = objc_getAssociatedObject(self, key);
-    if (!constraint) {
-        constraint = [[AXViewLayoutConstraint alloc] initWithAttribute:attribute targetView:self];
-        objc_setAssociatedObject(self, key, constraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return constraint;
+    return [[AXViewLayoutConstraint alloc] initWithAttribute:attribute targetView:self];
 }
 
 @end
