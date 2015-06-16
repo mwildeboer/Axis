@@ -16,6 +16,7 @@
 @property (nonatomic, strong) UIView *thirdView;
 @property (nonatomic, strong) UIView *fourthView;
 @property (nonatomic, strong) UIView *fifthView;
+@property (nonatomic, strong) UIView *sixthView;
 
 @end
 
@@ -44,6 +45,10 @@
     self.fifthView = [[UIView alloc] initWithFrame:CGRectZero];
     self.fifthView.backgroundColor = [UIColor orangeColor];
     [self.fourthView addSubview:self.fifthView];
+    
+    self.sixthView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.sixthView.backgroundColor = [UIColor purpleColor];
+    [self.view addSubview:self.sixthView];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -85,8 +90,15 @@
         
     [self.fifthView layout:^(AXLayoutMaker *make) {
         [make.centerX equalTo:self.fourthView.centerX];
-        [make.centerY equalTo:self.fourthView.centerY];
-        [make.height equalTo:@100];
+        [make.centerY equalTo:self.fourthView.centerY withOffset:-35];
+        [make.height equalTo:@50];
+        [make.width equalTo:@100];
+    }];
+    
+    [self.sixthView layout:^(AXLayoutMaker *make) {
+        [make.centerX equalTo:self.fourthView.centerX];
+        [make.centerY equalTo:self.fourthView.centerY withOffset:35];
+        [make.height equalTo:@50];
         [make.width equalTo:@100];
     }];
 }
