@@ -46,6 +46,11 @@
     [self.fourthView addSubview:self.fifthView];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self viewDidLayoutSubviews];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
