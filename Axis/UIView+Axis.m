@@ -73,3 +73,24 @@
 
 @end
 
+@implementation UIView (Axis)
+
+- (void)sizeToFitInSuperview
+{
+    [self sizeToFitInSuperviewWithInsets:UIEdgeInsetsZero];
+}
+
+- (void)sizeToFitInSuperviewWithInsets:(UIEdgeInsets)insets
+{
+    if (self.superview)
+    {
+        CGRect frame = self.superview.bounds;
+        frame.origin.x += insets.left;
+        frame.origin.y += insets.top;
+        frame.size.width -= (insets.left + insets.right);
+        frame.size.height -= (insets.top + insets.bottom);
+        self.frame = frame;
+    }
+}
+
+@end

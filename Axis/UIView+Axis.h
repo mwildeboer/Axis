@@ -22,7 +22,11 @@
 
 - (void)layout:(void (^)(AXLayoutMaker *make))layoutBlock;
 
-- (void)equalToSuperview;
-- (void)equalToSuperviewWithInsets:(UIEdgeInsets)insets;
+@end
+
+@interface UIView (Axis)
+
+- (void)sizeToFitInSuperview;
+- (void)sizeToFitInSuperviewWithInsets:(UIEdgeInsets)insets;
 
 @end
