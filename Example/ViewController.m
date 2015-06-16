@@ -56,9 +56,11 @@
     
     [self.thirdView layout:^(AXLayoutMaker *make) {
         [make.top equalTo:self.firstView.bottom withOffset:10];
-        [make.left equalTo:self.firstView.left];
-        [make.right equalTo:self.secondView.right];
+//        [make.left equalTo:self.firstView.left];
+//        [make.right equalTo:self.secondView.right];
         [make.height equalTo:@100];
+        [make.width equalTo:@50];
+        [make.centerX equalTo:self.secondView.centerX];
     }];
     
     NSLog(@"firstView frame %@", NSStringFromCGRect(self.firstView.frame));

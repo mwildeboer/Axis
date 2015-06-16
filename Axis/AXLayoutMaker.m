@@ -107,7 +107,7 @@
         if (!_centerX.targetAttribute == AXLayoutAttributeNone)
         {
             if (_centerX.targetAttribute == AXLayoutAttributeCenterX) {
-                newFrame.origin.x = (CGRectGetMidX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(newFrame)/2;
+                newFrame.origin.x = (_centerX.targetView.center.x * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(newFrame)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeLeft) {
                 newFrame.origin.x = (CGRectGetMaxX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(newFrame)/2;
@@ -192,7 +192,7 @@
         if (!_centerY.targetAttribute == AXLayoutAttributeNone)
         {
             if (_centerY.targetAttribute == AXLayoutAttributeCenterY) {
-                newFrame.origin.y = (CGRectGetMidY(_centerY.targetView.frame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(newFrame)/2;
+                newFrame.origin.y = (_centerY.targetView.center.y * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(newFrame)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeTop) {
                 newFrame.origin.y = (CGRectGetMaxY(_centerY.targetView.frame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(newFrame)/2;
