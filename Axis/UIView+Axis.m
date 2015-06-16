@@ -16,6 +16,7 @@
 - (void)layout:(void (^)(AXLayoutMaker *make))layoutBlock
 {
     NSParameterAssert(layoutBlock);
+    NSAssert(self.superview, @"Can't layout if the subview is not added to a superview.");
 
     AXLayoutMaker *maker = [[AXLayoutMaker alloc] init];
     layoutBlock(maker);

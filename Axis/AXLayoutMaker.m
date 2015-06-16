@@ -102,17 +102,19 @@
     }
     else if (self.horizontalAttributes & AXLayoutAttributeCenterX)
     {
-        NSAssert(view.superview, @"Can't layout attribute centerX if the subview does not have a superview.");
-
         if (_centerX.targetAttribute != AXLayoutAttributeNone)
         {
             if (_centerX.targetAttribute == AXLayoutAttributeCenterX)
             {
-                f.origin.x = (CGRectGetMidX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2 - CGRectGetMinX(view.superview.frame);
+                if (_centerY.targetView == view.superview) {
+                    f.origin.x = (CGRectGetWidth(_centerX.targetView.bounds)/2 * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
+                } else {
+                    f.origin.x = (CGRectGetMidX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
+                }
             }
         }
         else {
-            f.origin.x = _centerX.constantValue - CGRectGetWidth(f)/2 - CGRectGetMinX(view.superview.frame);
+            f.origin.x = _centerX.constantValue - CGRectGetWidth(f)/2;
         }
     }
     
@@ -185,16 +187,19 @@
     }
     else if (self.verticalAttributes & AXLayoutAttributeCenterY)
     {
-        NSAssert(view.superview, @"Can't layout attribute centerY if the subview does not have a superview.");
-
         if (_centerY.targetAttribute != AXLayoutAttributeNone)
         {
             if (_centerY.targetAttribute == AXLayoutAttributeCenterY)
             {
-                f.origin.y = (CGRectGetMidY(_centerY.targetView.frame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(f)/2 - CGRectGetMinY(view.superview.frame);
+                if (_centerY.targetView == view.superview) {
+                    f.origin.y = (CGRectGetHeight(_centerY.targetView.bounds)/2 * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(f)/2;
+                } else {
+                    f.origin.y = (CGRectGetMidY(_centerY.targetView.frame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(f)/2;
+                }
             }
-        } else {
-            f.origin.y = _centerY.constantValue - CGRectGetHeight(f)/2 - CGRectGetMinY(view.superview.frame);
+        }
+        else {
+            f.origin.y = _centerY.constantValue - CGRectGetHeight(f)/2;
         }
     }
     
