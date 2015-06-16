@@ -39,106 +39,109 @@
 
 - (void)updateFrame:(CGRect *)frame withHorizonalConstraintsOnView:(UIView *)view
 {
-    CGRect newFrame = *frame;
-    
+    CGRect f = *frame;
     if (self.horizontalAttributes & AXLayoutAttributeWidth)
     {
-        if (!_width.targetAttribute == AXLayoutAttributeNone)
+        if (_width.targetAttribute != AXLayoutAttributeNone)
         {
             if (_width.targetAttribute == AXLayoutAttributeWidth) {
-                newFrame.size.width = CGRectGetWidth(_width.targetView.frame) * _width.multiplier;
+                f.size.width = CGRectGetWidth(_width.targetView.frame) * _width.multiplier + _width.offset;
             }
             else if (_width.targetAttribute == AXLayoutAttributeHeight) {
-                newFrame.size.width = CGRectGetHeight(_width.targetView.frame) * _width.multiplier;
+                f.size.width = CGRectGetHeight(_width.targetView.frame) * _width.multiplier + _width.offset;
             }
         }
         else {
-            newFrame.size.width = _width.constantValue;
+            f.size.width = _width.constantValue;
         }
     }
     
     if (self.horizontalAttributes & AXLayoutAttributeLeft)
     {
-        if (!_left.targetAttribute == AXLayoutAttributeNone)
+        if (_left.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_left.targetView.bounds fromView:_left.targetView];
             if (_left.targetAttribute == AXLayoutAttributeLeft) {
-                newFrame.origin.x = CGRectGetMinX(_left.targetView.frame) * _left.multiplier + _left.offset;
+                f.origin.x = CGRectGetMinX(relativeFrame) * _left.multiplier + _left.offset;
             }
             else if (_left.targetAttribute == AXLayoutAttributeRight) {
-                newFrame.origin.x = CGRectGetMaxX(_left.targetView.frame) * _left.multiplier + _left.offset;
+                f.origin.x = CGRectGetMaxX(relativeFrame) * _left.multiplier + _left.offset;
             }
         }
         else {
-            newFrame.origin.x = _left.constantValue;
+            f.origin.x = _left.constantValue;
         }
         
 
         if (self.horizontalAttributes & AXLayoutAttributeRight && !(self.horizontalAttributes & AXLayoutAttributeWidth))
         {
-            if (!_right.targetAttribute == AXLayoutAttributeNone)
+            if (_right.targetAttribute != AXLayoutAttributeNone)
             {
+                CGRect relativeFrame = [view convertRect:_right.targetView.bounds fromView:_right.targetView];
                 if (_right.targetAttribute == AXLayoutAttributeRight) {
-                    newFrame.size.width = MAX(0, (CGRectGetMaxX(_right.targetView.frame) * _right.multiplier - _right.offset) - CGRectGetMinX(newFrame));
+                    f.size.width = MAX(0, (CGRectGetMaxX(relativeFrame) * _right.multiplier - _right.offset) - CGRectGetMinX(f));
                 }
                 else if (_right.targetAttribute == AXLayoutAttributeLeft) {
-                    newFrame.size.width = MAX(0, (CGRectGetMinX(_right.targetView.frame) * _right.multiplier - _right.offset) - CGRectGetMinX(newFrame));
+                    f.size.width = MAX(0, (CGRectGetMinX(relativeFrame) * _right.multiplier - _right.offset) - CGRectGetMinX(f));
                 }
             } else if (view.superview != nil) {
-                newFrame.size.width = MAX(0, (CGRectGetMaxX(view.superview.frame) - _right.constantValue) - CGRectGetMinX(newFrame));
+                f.size.width = MAX(0, (CGRectGetMaxX(view.superview.frame) - _right.constantValue) - CGRectGetMinX(f));
             }
         }
     }
     else if (self.horizontalAttributes & AXLayoutAttributeRight)
     {
-        if (!_right.targetAttribute == AXLayoutAttributeNone)
+        if (_right.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_right.targetView.bounds fromView:_right.targetView];
             if (_right.targetAttribute == AXLayoutAttributeRight) {
-                newFrame.origin.x = (CGRectGetMaxX(_right.targetView.frame) * _right.multiplier - _right.offset) - CGRectGetWidth(newFrame);
+                f.origin.x = (CGRectGetMaxX(relativeFrame) * _right.multiplier - _right.offset) - CGRectGetWidth(f);
             }
             else if (_right.targetAttribute == AXLayoutAttributeLeft) {
-                newFrame.origin.x = (CGRectGetMinX(_right.targetView.frame) * _right.multiplier - _right.offset) - CGRectGetWidth(newFrame);
+                f.origin.x = (CGRectGetMinX(relativeFrame) * _right.multiplier - _right.offset) - CGRectGetWidth(f);
             }
         } else {
-            newFrame.origin.x = _right.constantValue - CGRectGetWidth(newFrame);
+            f.origin.x = _right.constantValue - CGRectGetWidth(f);
         }
     }
     else if (self.horizontalAttributes & AXLayoutAttributeCenterX)
     {
-        if (!_centerX.targetAttribute == AXLayoutAttributeNone)
+        if (_centerX.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_centerX.targetView.bounds fromView:_centerX.targetView];
             if (_centerX.targetAttribute == AXLayoutAttributeCenterX) {
-                newFrame.origin.x = (_centerX.targetView.center.x * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(newFrame)/2;
+                f.origin.x = (CGRectGetMidX(relativeFrame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeLeft) {
-                newFrame.origin.x = (CGRectGetMaxX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(newFrame)/2;
+                f.origin.x = (CGRectGetMaxX(relativeFrame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeRight) {
-                newFrame.origin.x = (CGRectGetMinX(_centerX.targetView.frame) * _centerX.multiplier - _centerX.offset) - CGRectGetWidth(newFrame)/2;
+                f.origin.x = (CGRectGetMinX(relativeFrame) * _centerX.multiplier - _centerX.offset) - CGRectGetWidth(f)/2;
             }
         } else {
-            newFrame.origin.x = _centerX.constantValue - CGRectGetWidth(newFrame)/2;
+            f.origin.x = _centerX.constantValue - CGRectGetWidth(f)/2;
         }
     }
     
-    *frame = newFrame;
+    *frame = f;
 }
 
 - (void)updateFrame:(CGRect *)frame withVerticalConstraintsOnView:(UIView *)view
 {
-    CGRect newFrame = *frame;
+    CGRect f = *frame;
     if (self.verticalAttributes & AXLayoutAttributeHeight)
     {
         if (_height.targetAttribute != AXLayoutAttributeNone)
         {
             if (_height.targetAttribute == AXLayoutAttributeWidth) {
-                newFrame.size.height = CGRectGetWidth(_height.targetView.frame) * _height.multiplier;
+                f.size.height = CGRectGetWidth(_height.targetView.frame) * _height.multiplier + _height.offset;
             }
             else if (_height.targetAttribute == AXLayoutAttributeHeight) {
-                newFrame.size.height = CGRectGetHeight(_height.targetView.frame) * _height.multiplier;
+                f.size.height = CGRectGetHeight(_height.targetView.frame) * _height.multiplier + _height.offset;
             }
         }
         else {
-            newFrame.size.height = _height.constantValue;
+            f.size.height = _height.constantValue;
         }
     }
     
@@ -146,66 +149,70 @@
     {
         if (_top.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_top.targetView.bounds fromView:_top.targetView];
             if (_top.targetAttribute == AXLayoutAttributeTop) {
-                newFrame.origin.y = CGRectGetMinY(_top.targetView.frame) * _top.multiplier + _top.offset;
+                f.origin.y = CGRectGetMinY(relativeFrame) * _top.multiplier + _top.offset;
             }
             else if (_top.targetAttribute == AXLayoutAttributeBottom) {                
-                newFrame.origin.y = CGRectGetMaxY(_top.targetView.frame) * _top.multiplier + _top.offset;
+                f.origin.y = CGRectGetMaxY(relativeFrame) * _top.multiplier + _top.offset;
             }
         }
         else {
-            newFrame.origin.y = _top.constantValue;
+            f.origin.y = _top.constantValue;
         }
         
         if (self.verticalAttributes & AXLayoutAttributeBottom && !(self.verticalAttributes & AXLayoutAttributeHeight))
         {
             if (_bottom.targetAttribute != AXLayoutAttributeNone)
             {
+                CGRect relativeFrame = [view convertRect:_bottom.targetView.bounds fromView:_bottom.targetView];
                 if (_bottom.targetAttribute == AXLayoutAttributeBottom) {
-                    newFrame.size.height = MAX(0, (CGRectGetMaxY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetMinY(newFrame));
-                    
+                    f.size.height = MAX(0, (CGRectGetMaxY(relativeFrame) * _bottom.multiplier - _bottom.offset) - CGRectGetMinY(f));
                 }
                 else if (_bottom.targetAttribute == AXLayoutAttributeTop) {
-                    newFrame.size.height = MAX(0, (CGRectGetMinY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetMinY(newFrame));
+                    f.size.height = MAX(0, (CGRectGetMinY(relativeFrame) * _bottom.multiplier - _bottom.offset) - CGRectGetMinY(f));
                 }
-            } else if (view.superview != nil) {
-                newFrame.size.height = MAX(0, CGRectGetMaxY(view.superview.frame) - _bottom.constantValue - CGRectGetMinY(newFrame));
+            }
+            else if (view.superview != nil) {
+                f.size.height = MAX(0, CGRectGetMaxY(view.superview.frame) - _bottom.constantValue - CGRectGetMinY(f));
             }
         }
     }
     else if (self.verticalAttributes & AXLayoutAttributeBottom)
     {
-        if (!_bottom.targetAttribute == AXLayoutAttributeNone)
+        if (_bottom.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_bottom.targetView.bounds fromView:_bottom.targetView];
             if (_bottom.targetAttribute == AXLayoutAttributeBottom) {
-                newFrame.origin.y = (CGRectGetMaxY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetHeight(newFrame);
+                f.origin.y = (CGRectGetMaxY(relativeFrame) * _bottom.multiplier - _bottom.offset) - CGRectGetHeight(f);
             }
             else if (_bottom.targetAttribute == AXLayoutAttributeTop) {
-                newFrame.origin.y = (CGRectGetMinY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetHeight(newFrame);
+                f.origin.y = (CGRectGetMinY(relativeFrame) * _bottom.multiplier - _bottom.offset) - CGRectGetHeight(f);
             }
         } else {
-            newFrame.origin.y = _bottom.constantValue - CGRectGetHeight(newFrame);
+            f.origin.y = _bottom.constantValue - CGRectGetHeight(f);
         }
     }
     else if (self.verticalAttributes & AXLayoutAttributeCenterY)
     {
-        if (!_centerY.targetAttribute == AXLayoutAttributeNone)
+        if (_centerY.targetAttribute != AXLayoutAttributeNone)
         {
+            CGRect relativeFrame = [view convertRect:_centerY.targetView.bounds fromView:_centerY.targetView];
             if (_centerY.targetAttribute == AXLayoutAttributeCenterY) {
-                newFrame.origin.y = (_centerY.targetView.center.y * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(newFrame)/2;
+                f.origin.y = (CGRectGetMidY(relativeFrame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(f)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeTop) {
-                newFrame.origin.y = (CGRectGetMaxY(_centerY.targetView.frame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(newFrame)/2;
+                f.origin.y = (CGRectGetMaxY(relativeFrame) * _centerY.multiplier + _centerY.offset) - CGRectGetHeight(f)/2;
             }
             else if (_right.targetAttribute == AXLayoutAttributeBottom) {
-                newFrame.origin.y = (CGRectGetMinY(_centerY.targetView.frame) * _centerY.multiplier - _centerY.offset) - CGRectGetHeight(newFrame)/2;
+                f.origin.y = (CGRectGetMinY(relativeFrame) * _centerY.multiplier - _centerY.offset) - CGRectGetHeight(f)/2;
             }
         } else {
-            newFrame.origin.y = _centerY.constantValue - CGRectGetHeight(newFrame)/2;
+            f.origin.y = _centerY.constantValue - CGRectGetHeight(f)/2;
         }
     }
     
-    *frame = newFrame;
+    *frame = f;
 }
 
 #pragma mark - Accessors
