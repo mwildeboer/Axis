@@ -34,7 +34,7 @@
     [self updateFrame:&frame withHorizonalConstraintsOnView:view];
     [self updateFrame:&frame withVerticalConstraintsOnView:view];
     
-    view.frame = frame;
+    view.frame = CGRectIntegral(frame);
 }
 
 - (void)updateFrame:(CGRect *)frame withHorizonalConstraintsOnView:(UIView *)view
