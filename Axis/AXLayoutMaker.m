@@ -106,7 +106,7 @@
         {
             if (_centerX.targetAttribute == AXLayoutAttributeCenterX)
             {
-                if (_centerY.targetView == view.superview) {
+                if (_centerX.targetView == view.superview) {
                     f.origin.x = (CGRectGetWidth(_centerX.targetView.bounds)/2 * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
                 } else {
                     f.origin.x = (CGRectGetMidX(_centerX.targetView.frame) * _centerX.multiplier + _centerX.offset) - CGRectGetWidth(f)/2;
