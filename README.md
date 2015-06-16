@@ -6,6 +6,10 @@ Axis is a declarative way of laying out subviews. Originally I was really excite
 
 ### Installation
 
+Preferred is installation via CocoaPods. After the project has been matured, I will add the project to the Cocoapods central repository. For now, add the following line to your Podfile:
+
+    pod 'Axis', :git => 'https://github.com/mwildeboer/Axis.git'
+
 ### Examples
 
 In essence Axis is nothing more than an implementation based on the builder pattern. The builder callback will the provide you with an instance of the *AXLayoutMaker* class which allows you the match and set layout constraints. Let's say you have one view named *firstView*. Here is the most basis example:
