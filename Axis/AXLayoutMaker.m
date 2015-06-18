@@ -97,7 +97,7 @@
                 f.origin.x = (CGRectGetMinX(_right.targetView.frame) * _right.multiplier - _right.offset) - CGRectGetWidth(f);
             }
         } else {
-            f.origin.x = _right.constantValue - CGRectGetWidth(f);
+            f.origin.x = CGRectGetWidth(view.superview.frame) - _right.constantValue - CGRectGetWidth(f);
         }
     }
     else if (self.horizontalAttributes & AXLayoutAttributeCenterX)
@@ -182,7 +182,7 @@
                 f.origin.y = (CGRectGetMinY(_bottom.targetView.frame) * _bottom.multiplier - _bottom.offset) - CGRectGetHeight(f);
             }
         } else {
-            f.origin.y = _bottom.constantValue - CGRectGetHeight(f);
+            f.origin.y = CGRectGetHeight(view.superview.frame) - _bottom.constantValue - CGRectGetHeight(f);
         }
     }
     else if (self.verticalAttributes & AXLayoutAttributeCenterY)
