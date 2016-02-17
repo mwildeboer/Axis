@@ -16,7 +16,6 @@ public class AXContext {
   }
   
   internal func installConstraints() {
-        
     if self.constraints.isEmpty {
       return
     }
@@ -61,7 +60,7 @@ public class AXContext {
     }
     else if let c = self.constraints[.Right] {
       if c.secondAttribute == .Right {
-        frame.origin.x = max(0, (CGRectGetMaxX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetMinX(frame))
+        frame.origin.x = max(0, (CGRectGetMaxX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetWidth(frame))
       } else if (c.secondAttribute == .Left) {
         frame.origin.x = (CGRectGetMinX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetWidth(frame)
       } else if c.secondAttribute == .None && c.firstView.superview != nil {
@@ -117,7 +116,7 @@ public class AXContext {
     }
     else if let c = self.constraints[.Bottom] {
       if c.secondAttribute == .Bottom {
-        frame.origin.y = max(0, (CGRectGetMaxY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetMinY(frame))
+        frame.origin.y = max(0, (CGRectGetMaxY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetHeight(frame))
       } else if (c.secondAttribute == .Left) {
         frame.origin.y = (CGRectGetMinY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetHeight(frame)
       } else if c.secondAttribute == .None && c.firstView.superview != nil {
