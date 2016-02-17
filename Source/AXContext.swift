@@ -64,8 +64,8 @@ public class AXContext {
         frame.origin.x = max(0, (CGRectGetMaxX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetMinX(frame))
       } else if (c.secondAttribute == .Left) {
         frame.origin.x = (CGRectGetMinX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetWidth(frame)
-      } else if c.secondAttribute == .None && c.secondView!.superview != nil {
-        frame.origin.x = CGRectGetWidth(c.secondView!.superview!.frame) - c.constant - CGRectGetWidth(frame)
+      } else if c.secondAttribute == .None && c.firstView.superview != nil {
+        frame.origin.x = CGRectGetWidth(c.firstView.superview!.frame) - c.constant - CGRectGetWidth(frame)
       }
     }
     else if let c = self.constraints[.CenterX] {
@@ -120,8 +120,8 @@ public class AXContext {
         frame.origin.y = max(0, (CGRectGetMaxY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetMinY(frame))
       } else if (c.secondAttribute == .Left) {
         frame.origin.y = (CGRectGetMinY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetHeight(frame)
-      } else if c.secondAttribute == .None && c.secondView!.superview != nil {
-        frame.origin.y = CGRectGetHeight(c.secondView!.superview!.frame) - c.constant - CGRectGetHeight(frame)
+      } else if c.secondAttribute == .None && c.firstView.superview != nil {
+        frame.origin.y = CGRectGetHeight(c.firstView.superview!.frame) - c.constant - CGRectGetHeight(frame)
       }
     }
     else if let c = self.constraints[.CenterY] {
