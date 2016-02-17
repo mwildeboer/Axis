@@ -54,7 +54,7 @@ public class AXContext {
           } else if (c.secondAttribute == .Left) {
             frame.size.width = max(0, (CGRectGetMinX(c.secondView!.frame) * c.multiplier + c.offset) - CGRectGetMinX(frame))
           } else if c.secondAttribute == .None && c.firstView.superview != nil {
-            frame.size.width = max(0, (CGRectGetMaxX(c.firstView.frame) - c.constant) - CGRectGetMinX(frame))
+            frame.size.width = max(0, (CGRectGetMaxX(c.firstView.superview!.frame) - c.constant) - CGRectGetMinX(frame))
           }
         }
       }
@@ -110,7 +110,7 @@ public class AXContext {
           } else if (c.secondAttribute == .Left) {
             frame.size.height = max(0, (CGRectGetMinY(c.secondView!.frame) * c.multiplier - c.offset) - CGRectGetMinY(frame))
           } else if c.secondAttribute == .None && c.firstView.superview != nil {
-            frame.size.height = max(0, (CGRectGetMaxY(c.firstView.frame) - c.constant) - CGRectGetMinY(frame))
+            frame.size.height = max(0, (CGRectGetMaxY(c.firstView.superview!.frame) - c.constant) - CGRectGetMinY(frame))
           }
         }
       }
