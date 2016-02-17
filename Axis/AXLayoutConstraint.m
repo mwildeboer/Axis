@@ -58,7 +58,7 @@
     self = [super init];
     if (self)
     {
-        self.constraintAttribute = attribute;
+//        self.constraintAttribute = attribute;
         self.targetAttribute = AXLayoutAttributeNone;
     }
     return self;

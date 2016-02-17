@@ -23,7 +23,6 @@ typedef NS_OPTIONS(NSUInteger, AXLayoutAttribute)
 
 @interface AXLayoutConstraint ()
 
-@property (nonatomic, assign) AXLayoutAttribute constraintAttribute;
 @property (nonatomic, assign) AXLayoutAttribute targetAttribute;
 @property (nonatomic, assign) UIView           *targetView;
 
